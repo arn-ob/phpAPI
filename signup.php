@@ -1,20 +1,24 @@
 <?php
     include "_db/db.php";
-
+    
+    $data = file_get_contents('php://input'); // put the contents of the file into a variable
+    $receive = json_decode($data); // decode the JSON feed
+    
     // Data Store for Send
     $return = array();
 
     // Connection Check
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
+    }else{
+        print("problem");
     }
 
     // Check POST METHOD
 	if ($_SERVER["REQUEST_METHOD"] == 'POST')
 	{   
-        $data = file_get_contents('php://input'); // put the contents of the file into a variable
-        $receive = json_decode($data); // decode the JSON feed
-        $id = base64_encode(random_bytes(20));
+       
+        $id = base64_encode(rand(10,100);
 
         // Data Receive 
         $username  = $receive->username;

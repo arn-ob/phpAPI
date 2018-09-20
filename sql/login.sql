@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert` (IN `username` VARCHAR(50), IN `pass` VARCHAR(50), IN `name` VARCHAR(50), IN `number` VARCHAR(20), IN `id` VARCHAR(50))  NO SQL
+CREATE PROCEDURE `insert` (IN `username` VARCHAR(50), IN `pass` VARCHAR(50), IN `name` VARCHAR(50), IN `number` VARCHAR(20), IN `id` VARCHAR(50))  NO SQL
 INSERT into login(login.username, login.password, login.full_name, login.mobile_number, login.created_date, login.id) values (username, pass, name, number, CURRENT_DATE, id )$$
 
 DELIMITER ;

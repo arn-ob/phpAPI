@@ -1,6 +1,6 @@
 phpAPI
 
-Signin API Hit: //ip//phpAPI/signin.php
+Signin API Hit: http://stupidarnob.com/phpAPI/signin.php
 
 JSON:
 {
@@ -21,7 +21,7 @@ IF match:
             "token":{"iat":90235,"jti":"MDkwMjM1cG0=","exp":93835}}]
 
 =============================================================================================================
-Signin API Hit: //ip//phpAPI/signup.php
+Signin API Hit: http://stupidarnob.com/phpAPI/signun.php
 
 JSON:
 {
@@ -43,7 +43,7 @@ IF present:
 
 ================================================================================================================
 
-Signin API Hit: //ip//phpAPI/verify.php
+Signin API Hit: http://stupidarnob.com/phpAPI/verify.php
 
 JSON:
 {
