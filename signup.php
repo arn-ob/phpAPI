@@ -14,6 +14,7 @@
 	{   
         $data = file_get_contents('php://input'); // put the contents of the file into a variable
         $receive = json_decode($data); // decode the JSON feed
+        $id = base64_encode(random_bytes(20));
 
         // Data Receive 
         $username  = $receive->username;
@@ -28,7 +29,7 @@
                 if($result->num_rows == 0){
 
                         // mysql Store Procedure
-                        $sql_sp = "CALL `insert`('" .$username . "','" .$password . "','" .$full_name . "','" .$mobile . "')";
+                        $sql_sp = "CALL `insert`('" .$username . "','" .$password . "','" .$full_name . "','" .$mobile . "','" .$id . "')";
             
                         if ($conn->query($sql_sp) === TRUE) 
                         {

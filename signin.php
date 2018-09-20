@@ -4,9 +4,7 @@
     $data = file_get_contents('php://input'); // put the contents of the file into a variable
     $receive = json_decode($data); // decode the JSON feed
 
-    // Data Receive 
-    $username  = $receive->username;
-    $password  = $receive->password;
+    
 
     // Data Store for Send
     $return = array();
@@ -15,48 +13,53 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    print(token());
+
     // Check POST METHOD
 	if ($_SERVER["REQUEST_METHOD"] == 'POST')
 	{   
+        // Data Receive 
+        $username  = $receive->username;
+        $password  = $receive->password;
+
         $sql_invt = "SELECT * FROM login where username = '" .$username . "' and password = '" .$password . "'";
         if ($result = $conn->query($sql_invt)) {
             if($result->num_rows == 0){
                 $return[] = ["status" => "false", "msg" => "Invalid username or password given. Please try again"];
             }else {
                 $row = $result->fetch_array();
-                $return[] = ["status" => "True", 
+                $return[] = [   "status" => "true", 
                                 "msg" => "User Found", 
                                 "name" => $row["username"],
-                                ""
+                                "id" => $row["id"],
+                                "pic" => "https://freedesignfile.com/upload/2015/08/Beautiful-natural-scenery-and-sun-vector-01.jpg",
+                                "token" => token()
                             ];
             }
         } 
+        echo json_encode($return);
+    }else{
+        $return[] = ["Problem" => "Not POST Method"];
+        $return[] = ["Hello" => "Its an API send a POST Requset"];
+
+        // JSON Encoding to send 
         echo json_encode($return);
     }
 
     function token(){
         
         $time = date("hisa");
-        $tokenId    = base64_encode(random_bytes(32));
+        $tokenId    = base64_encode($time);
         $issuedAt   = intval($time);
-        $notBefore  = $issuedAt + 10;             //Adding 10 seconds
-        $expire     = $notBefore + 60;            // Adding 60 seconds
-
+        $expire     = $notBefore + 60 * 60;            // Adding 60 seconds
         /*
         * Create the token as an array
         */
         $data = [
             'iat'  => $issuedAt,         // Issued at: time when the token was generated
             'jti'  => $tokenId,          // Json Token Id: an unique identifier for the token
-            'nbf'  => $notBefore,        // Not before
-            'exp'  => $expire,           // Expire
-            'data' => [                  // Data related to the signer user
-                'userId'   => "dasd", // userid from the users table
-                'userName' => "213sad", // User name
-            ]
+            'exp'  => $expire           // Expire
         ];
-        return json_encode($data);
-
+        return $data;
+        
     }
 ?>
