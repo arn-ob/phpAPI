@@ -50,7 +50,7 @@
         $time = date("hisa");
         $tokenId    = base64_encode($time);
         $issuedAt   = intval($time);
-        $expire     = $notBefore + 60 * 60;            // Adding 60 seconds
+        $expire     = $issuedAt + 60 * 60;            // Adding 60 seconds
         /*
         * Create the token as an array
         */
