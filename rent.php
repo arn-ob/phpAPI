@@ -17,6 +17,68 @@
     
     
     
+    if($api == "searchQ2"){
+        
+        $rent_id  = $receive->rent_id ;
+        
+        // Check POST METHOD
+    	if ($_SERVER["REQUEST_METHOD"] == 'POST')
+    	{
+    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.rent_id = '". $rent_id ."' and rent.apart_id = apartment.apart_id and rent.location_id = location.location_id";
+             
+            if ($result = $conn->query($sql_loc)) 
+            {
+                
+                if($result->num_rows == 0){
+                    $return[] = ["status" => "false", "msg" => "Invalid username or password given. Please try again"];
+                }else {
+                    while($row = $result->fetch_array())
+                    {
+                    
+                        $temp["rent_details"] = [
+                                                "no" => $row["no"], 
+                                                "rent_id" => $row["rent_id"],
+                                                "rent_title" => $row["rent_title"],
+                                                "rent_details" => $row["details"],
+                                                "location" =>  [ 
+                                                    "lat" => $row["map_lat"],
+                                                    "lon" => $row["map_long"],
+                                                    "place" => $row["location_name"],
+                                                    ],
+                                                "apartment_type" => $row["type"],
+                                                "rent_amount" => $row["amount"],
+                                                "no_of_room" => $row["no_of_room"],
+                                                "apartment_size" => $row["size"],
+                                                "booked" => $row["is_booked"],
+                                                "owner_booked" => $row["is_booked_conf"],
+                                                "nearby_places" => $row["nearby_place"],
+                                                "rent_pictures" => $row["picture"],
+                                            ];
+                        $return[] = $temp; 
+                                    
+                    }
+                    echo json_encode($return);
+                }   
+                    
+            }else{
+              $return[] = ["Problem" => "Internal sql problem"];
+              echo json_encode($return);
+            }
+    	
+        }else{
+            $return[] = ["Problem" => "Not POST Method"];
+            $return[] = ["Hello" => "Its an API send a POST Requset"];
+            echo json_encode($return);
+        }
+        // JSON Encoding to send 
+        // echo json_encode($return);
+	}
+    
+    
+    // seach with all type of search peramitter
+    // number of item to send
+    // start and ending id
+    // order view
     if($api == "searchQ1"){
         $numberOfItem = $receive->no_of_item;
         $start = $receive->start;
@@ -27,7 +89,7 @@
         // Check POST METHOD
     	if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	{
-    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.apart_id = apartment.apart_id and rent.location_id = location.location_id and rent.no BETWEEN $start and $end ";
+    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.apart_id = apartment.apart_id and rent.location_id = location.location_id and rent.no BETWEEN $start and $end ORDER by rent.no $order LIMIT $numberOfItem";
             
             if ($result = $conn->query($sql_loc)) 
             {
@@ -64,14 +126,14 @@
                 }   
                     
             }else{
-                echo "problem1";
+              $return[] = ["Problem" => "Internal sql problem"];
+              echo json_encode($return);
             }
     	
         }else{
-        echo  "problem2";
-        $return[] = ["Problem" => "Not POST Method"];
-        $return[] = ["Hello" => "Its an API send a POST Requset"];
-
+            $return[] = ["Problem" => "Not POST Method"];
+            $return[] = ["Hello" => "Its an API send a POST Requset"];
+            echo json_encode($return);
         }
         // JSON Encoding to send 
         // echo json_encode($return);
@@ -137,6 +199,7 @@
     }
     
     // for insert value to rent
+    // and all other value
     if($api  == "insert"){
         $rent_id = base64_encode(rand(100,100000));
             
@@ -155,7 +218,7 @@
         }
         
          $locationid = $receive->locationid; 
-        if($locationid == 'null'){
+        if($locationid == 'new'){
             
             $locationid = base64_encode(rand(10,100));
             $map_lat = $receive->lat;
@@ -193,14 +256,14 @@
                  if($receive->apartid == "new"){
                      if ($conn->query($sql_aprt) === TRUE) 
                         {
-                             $return[] = ["status" => "true", "msg" => "Apartment Updated", "update" => "apartment"];
+                             $return[] = ["status" => "true", "msg" => "Apartment Updated", "update" => "apartment $sql_aprt "];
                         }
                  }
                  
                  if($receive->locationid == "new"){
                      if ($conn->query($sql_location) === TRUE) 
                         {
-                             $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "location"];
+                             $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "location  $sql_location"];
                         }
                  }
                  
@@ -223,13 +286,5 @@
         }
     }
 
-    function check($check){
-        if(!empty($check)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
     $conn->close();
 ?>
