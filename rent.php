@@ -6,6 +6,7 @@
     
     // Data Store for Send
     $return = array();
+    $temp = array();
     
     // Connection Check
     if ($conn->connect_error) {
@@ -26,34 +27,55 @@
         // Check POST METHOD
     	if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	{
-    	    $sql_location = "SELECT * FROM `rent` where no BETWEEN '" . $start . "' and '" . $end . "' ORDER BY no '" . $order . "'  LIMIT '" . $numberOfItem . "'";
+    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.apart_id = apartment.apart_id and rent.location_id = location.location_id and rent.no BETWEEN $start and $end ";
             
-            if ($result = $conn->query($sql_location) === TRUE) 
+            if ($result = $conn->query($sql_loc)) 
             {
-                if($result->num_rows == 0){
-                $return[] = ["status" => "false", "msg" => "Invalid username or password given. Please try again"];
-            }else {
-                $row = $result->fetch_array();
-                $return[] = [   "status" => "true", 
-                                "msg" => "User Found", 
-                                "name" => $row["username"],
-                                "id" => $row["id"],
-                                "pic" => "https://freedesignfile.com/upload/2015/08/Beautiful-natural-scenery-and-sun-vector-01.jpg",
-                                "token" => token()
-                            ];
-            }
                 
+                if($result->num_rows == 0){
+                    $return[] = ["status" => "false", "msg" => "Invalid username or password given. Please try again"];
+                }else {
+                    while($row = $result->fetch_array())
+                    {
+                    
+                        $temp["rent_details"] = [
+                                                "no" => $row["no"], 
+                                                "rent_id" => $row["rent_id"],
+                                                "rent_title" => $row["rent_title"],
+                                                "rent_details" => $row["details"],
+                                                "location" =>  [ 
+                                                    "lat" => $row["map_lat"],
+                                                    "lon" => $row["map_long"],
+                                                    "place" => $row["location_name"],
+                                                    ],
+                                                "apartment_type" => $row["type"],
+                                                "rent_amount" => $row["amount"],
+                                                "no_of_room" => $row["no_of_room"],
+                                                "apartment_size" => $row["size"],
+                                                "booked" => $row["is_booked"],
+                                                "owner_booked" => $row["is_booked_conf"],
+                                                "nearby_places" => $row["nearby_place"],
+                                                "rent_pictures" => $row["picture"],
+                                            ];
+                        $return[] = $temp; 
+                                    
+                    }
+                    echo json_encode($return);
+                }   
+                    
             }else{
-            
-            $return[] = ["Problem" => "Not POST Method"];
-            $return[] = ["Hello" => "Its an API send a POST Requset"];
-    
+                echo "problem1";
             }
-            // JSON Encoding to send 
-            echo json_encode($return);
-    	}
-        
-    }
+    	
+        }else{
+        echo  "problem2";
+        $return[] = ["Problem" => "Not POST Method"];
+        $return[] = ["Hello" => "Its an API send a POST Requset"];
+
+        }
+        // JSON Encoding to send 
+        // echo json_encode($return);
+	}
     
     
     
@@ -162,7 +184,7 @@
             $sql_aprt = "INSERT INTO `apartment`(`apart_id`, `type`, `picture`, `size`, `no_of_room`, `created_date`) 
                                            VALUES ('" .$apartid . "','" .$type . "','" .$picture . "','" .$size . "','" .$room_no . "', CURRENT_DATE)";
           
-            $sql_location = "INSERT INTO `location`(`location_id`, `map_lat`, `map_long`, `name`, `created_date`) 
+            $sql_location = "INSERT INTO `location`(`location_id`, `map_lat`, `map_long`, `location_name`, `created_date`) 
                                     VALUES ('" .$locationid. "','" .$map_lat. "','" .$map_long. "','" .$location_name. "',CURRENT_DATE)";
                                     
                                     
