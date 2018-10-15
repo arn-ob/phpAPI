@@ -24,7 +24,7 @@
         // Check POST METHOD
     	if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	{
-    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.rent_id = '". $rent_id ."' and rent.apart_id = apartment.apart_id and rent.location_id = location.location_id";
+    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.rent_id = '". $rent_id ."' and rent.apart_id = apartment.apart_id and rent.location_id = location.location_id LIMIT 1";
              
             if ($result = $conn->query($sql_loc)) 
             {
@@ -206,9 +206,10 @@
         // Data Receive 
         $title  = $receive->title;
         $details  = $receive->details;
-        $apartid = $receive->apartid; 
         
+        $apartid = $receive->apartid; 
         if($apartid == "new"){
+            
             $apartid = base64_encode(rand(10,100));
             $type = $receive->type;
             $picture = $receive->picture;
@@ -217,7 +218,7 @@
             
         }
         
-         $locationid = $receive->locationid; 
+        $locationid = $receive->locationid; 
         if($locationid == 'new'){
             
             $locationid = base64_encode(rand(10,100));
@@ -256,14 +257,14 @@
                  if($receive->apartid == "new"){
                      if ($conn->query($sql_aprt) === TRUE) 
                         {
-                             $return[] = ["status" => "true", "msg" => "Apartment Updated", "update" => "apartment $sql_aprt "];
+                             $return[] = ["status" => "true", "msg" => "Apartment Updated", "update" => "apartment"];
                         }
                  }
                  
                  if($receive->locationid == "new"){
                      if ($conn->query($sql_location) === TRUE) 
                         {
-                             $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "location  $sql_location"];
+                             $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "location"];
                         }
                  }
                  
