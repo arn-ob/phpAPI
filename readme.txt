@@ -305,6 +305,10 @@ API 5: Search by rent id. [Note] => "api": "searchQ2"
 [NOTE]
 Here All API. I checked many time. Let me know if you face any problem.
 
+[IMPORTANT]
+There are lots of dunny variable let know know if you wanted to delete. Those value are for testing.
+Before real life testing let me know i will delete all those fancy values
+
 
 
 
