@@ -64,3 +64,110 @@ IF match:
 IF not match:
 
 [{"status":"false","msg":"Token invalied"}]
+
+#################################### NEW WORK ##############################
+
+Rent Work:
+
+rent_api: http://stupidarnob.com/phpAPI/rent.php
+
+Here all rent related task happend in this single link. Here "api" object is a selector. So choose option carefully 
+
+API 1: 
+ Sending JSON:
+ 	{
+		"api": "insert",
+		"title": "asd",
+		"details": "asd",
+		"apartid": "new",
+		"type": "ad",
+		"picture": "asd",
+		"size": "asd",
+		"room_no": "asd",
+		"locationid": "new",
+		"lat": "asd",
+		"long": "asd",
+		"location_name": "asd", 
+		"nearby": "asd",
+		"is_booked": "asd",
+		"is_booked_conf": "asd",
+		"amount": "asd"
+	}
+[ Note: Dont look data. Those are dummy entry. I am stupid code u know :D ]	
+ 
+ Receving JSON:
+ 	[
+	    {
+		"status": "true",
+		"msg": "Apartment Updated",
+		"update": "apart"
+	    },
+	    {
+		"status": "true",
+		"msg": "Location Updated",
+		"update": "location"
+	    },
+	    {
+		"status": "true",
+		"msg": "Rent Data Insert",
+		"update": "rent"
+	    }
+	]
+Okiee API looks good but it has a problem. For your future advantage. I did some stupid work. So read carefully. 
+Look at the sending api where "apartid": "new" and "locationid": "new". The apartment and location store deferent table. So
+Here "new" means you wanted to store new location and apartment. Here "new" means new entry. So you have to provide the location and 
+apartment information. If you wanted to store previous location and apartment just give the id insted of new keyword. 
+Here a look of the example:
+
+ Sending JSON:
+  	{
+		"api": "insert",
+		"title": "asd",
+		"details": "asd",
+
+		"apartid": "asdsa",
+
+		"locationid": "asdssdw",
+
+		"nearby": "asd",
+		"is_booked": "asd",
+		"is_booked_conf": "asd",
+		"amount": "asd"
+	}
+	
+ Receive JSON: 
+ 	[
+	    {
+		"status": "true",
+		"msg": "Rent Data Insert",
+		"update": "rent"
+	    }
+	]
+So hope you understand.
+
+
+	
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
