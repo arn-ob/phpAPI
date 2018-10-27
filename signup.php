@@ -1,43 +1,44 @@
 <?php
     include "_db/db.php";
-    
+
     $data = file_get_contents('php://input'); // put the contents of the file into a variable
     $receive = json_decode($data); // decode the JSON feed
     
     // Data Store for Send
     $return = array();
-
+  
     // Connection Check
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }else{
-        print("problem");
     }
 
     // Check POST METHOD
 	if ($_SERVER["REQUEST_METHOD"] == 'POST')
 	{   
-       
-        $id = base64_encode(rand(10,100);
+        
+        $id = base64_encode(rand(10,100));
+        $sms = rand(100,10000);
 
+        
         // Data Receive 
         $username  = $receive->username;
         $password  = $receive->password;
         $full_name  = $receive->full_name;
         $mobile  = $receive->mobile;
-
+       
         if(check($username) && check($password) && check($full_name) && is_numeric($mobile)){
 
             $sql_check = "SELECT * FROM login where mobile_number = '" .$mobile . "' or username = '" .$username . "'";
+         
             if ($result = $conn->query($sql_check)) {
                 if($result->num_rows == 0){
 
                         // mysql Store Procedure
-                        $sql_sp = "CALL `insert`('" .$username . "','" .$password . "','" .$full_name . "','" .$mobile . "','" .$id . "')";
+                        $sql_sp = "CALL `insert_signup`('" .$username . "','" .$password . "','" .$full_name . "','" .$mobile . "','" .$id . "','" .$sms . "')";
             
                         if ($conn->query($sql_sp) === TRUE) 
                         {
-                            $return[] = ["status" => "true", "msg" => "Thank you for signup"];
+                            $return[] = ["status" => "true", "msg" => "Thank you for signup", "sms" => "Verification Code $sms"];
                         }else {
                             $return[] = ["problem" => "[Dev -> Debug] Problem Found in SQL Store Procedure"];
                         }
