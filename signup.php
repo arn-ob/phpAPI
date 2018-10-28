@@ -25,6 +25,8 @@
         $password  = $receive->password;
         $full_name  = $receive->full_name;
         $mobile  = $receive->mobile;
+        $email  = $receive->email;
+        
        
         if(check($username) && check($password) && check($full_name) && is_numeric($mobile)){
 
@@ -34,16 +36,30 @@
                 if($result->num_rows == 0){
 
                         // mysql Store Procedure
-                        $sql_sp = "CALL `insert_signup`('" .$username . "','" .$password . "','" .$full_name . "','" .$mobile . "','" .$id . "','" .$sms . "')";
+                        $sql_sp = "CALL `insert_signup`('" .$username . "','" .$password . "','" .$full_name . "','" .$mobile . "','" .$id . "','" .$sms . "','" .$email . "' )";
             
                         if ($conn->query($sql_sp) === TRUE) 
                         {
-                            $return[] = ["status" => "true", "msg" => "Thank you for signup", "sms" => "Verification Code $sms"];
+                            $return[] = ["status" => "true", "msg" => "Thank you for signup", "sms" => $sms];
                         }else {
                             $return[] = ["problem" => "[Dev -> Debug] Problem Found in SQL Store Procedure"];
                         }
                 }else {
-                    $return[] = ["status" => "false", "msg" => "User already exist with same mobile number or Username"];
+                    
+                    $row = $result->fetch_array();
+                    
+                    if($row["is_verified"] == "false"){
+                     
+                    $return[] = [  "status" => false,
+                                    "error_code" => "NOT_VERIFIED",
+                                    "sms_code" => $row["sms"]
+                                ];
+                    }else{
+                        
+                        $return[] = ["status" => "false", "msg" => "User already exist with same mobile number or Username"];
+                    
+                        
+                    }
                 }
             }
 
@@ -53,6 +69,7 @@
             $return[] = ["mobile" => $mobile ? $mobile : "Not Found" ];
             $return[] = ["password" => $password ? $password : "Not Found" ];
             $return[] = ["full_name" => $full_name ? $full_name : "Not Found" ];
+            $return[] = ["email" => $email ? $email : "Not Found" ];
         }
 
         // JSON Encoding to send 
