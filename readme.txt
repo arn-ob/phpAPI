@@ -150,16 +150,21 @@ file
 name
 where
 mobile
+aprt_id
 
 This is the peramiter of form-data. So here 
 file = the image file
 name = name of the file including ext. Like: user1.jpg. Without extention the file will not be desplayed. Must be send the ext from 		client end
 where = where to upload the file. Here two option
 		1. user
-		2. rent
+		2. aprt
 	user for user profile upload
-	rent is rent upload
-mobile =  mobile number of the user. if you upload the 
+	aprt is apartment pic upload
+mobile =  mobile number of the user. this is req for your upload for user. For apartment you can simply set it to null
+aprt_id = send the apartment id which apartment you wanted to upload pic. when u upload as a user live it null
+
+[ for user pic u need => file, name, where, mobile ] --- Rest of the field set null
+[ for apartment pic u need => file, name, where, aprt_id] --- Rest of the field set null
 
 #################################### NEW WORK ##############################
 
