@@ -7,7 +7,7 @@
     // Data Store for Send
     $return = array();
     $temp = array();
-    
+    $picarr = array();
     // Connection Check
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -34,7 +34,15 @@
                 }else {
                     while($row = $result->fetch_array())
                     {
-                    
+                         
+                        $picture = explode(',', $row["picture"]);
+                        $max = count($picture);
+                        for ($x = 0; $x < $max; $x++) {
+                            $picarr[] = [ "picture_url" => $picture[$x] ] ;
+                                    
+                        }
+                        
+                        
                         $temp["rent_details"] = [
                                                 "no" => $row["no"], 
                                                 "rent_id" => $row["rent_id"],
@@ -52,7 +60,7 @@
                                                 "booked" => $row["is_booked"],
                                                 "owner_booked" => $row["is_booked_conf"],
                                                 "nearby_places" => $row["nearby_place"],
-                                                "rent_pictures" => $row["picture"],
+                                                "rent_pictures" => [ $picarr ],
                                             ];
                         $return[] = $temp; 
                                     
