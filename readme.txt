@@ -18,63 +18,148 @@ IF match:
 
 [
     {
-        "status": "true",
+        "status": true,
         "msg": "User Found",
-        "name": "arnobxtreme",
-        "id": "MjI=",
-        "pic": "https://freedesignfile.com/upload/2015/08/Beautiful-natural-scenery-and-sun-vector-01.jpg",
-        "token": {
-            "iat": 44346,
-            "jti": "MDQ0MzQ2cG0=",
-            "exp": 47946
+        "user_profile": {
+            "name": "arnobxtreme",
+            "id": "MjI=",
+            "email": "adasd@xyz.com",
+             "pic": "upload_picture/user1.jpg",
+            "token": "MDYyNTM2cG0="
         }
     }
 ]
 
+
 =============================================================================================================
-Signin API Hit: http://stupidarnob.com/phpAPI/signup.php
+Signup API Hit: http://stupidarnob.com/phpAPI/signup.php
 
 JSON:
 {
-	"username": "arnobxtremes",
-	"password": "adasd",
-	"full_name": "Arnob",
-	"mobile": "01991"
+	"username": "arnobaxtremsses",
+	"password": "adssawsd",
+	"full_name": "Asrnob",
+	"mobile": "01929311",
+	"email": "assdsa@gmail.com"
 }
 
 Result
 
 IF not present previous: 
 
-[{"status":"true","msg":"Thank you for signup","sms":"Verification Code 7114"}]
+[
+    {
+        "status": "true",
+        "msg": "Thank you for signup",
+        "sms": 4419
+    }
+]
 
-IF present:
+IF present and also verified:
 
-[{"status":"false","msg":"User already exist with same mobile number or Username"}]
+[
+    {
+        "status": "false",
+        "msg":"User already exist with same mobile number or Username"
+    }
+]
+
+IF present but not verified:
+
+[
+    {
+        "status": false,
+        "error_code": "NOT_VERIFIED",
+        "sms_code": "7114"
+    }
+]
+
+[ IMPORTENT NOTE: If you notice or not, here is a problem with sms code. Some time i send as a string some time i send as a number.
+ thats my bad. Sorry for that. please parse/convert all sms code to int or string. it will help u to prevent my stupid mistake.  
+]
 
 ================================================================================================================
 
-Signin API Hit: http://stupidarnob.com/phpAPI/verify.php
+Auth Verify API Hit: http://stupidarnob.com/phpAPI/auth_verify.php
 
 JSON:
 {
-	"token":{
-		"iat":802320,
-		"jti":"MDgwMzIwcG0=",
-		"nbf":80330,
-		"exp":80390
-		}
+	"token": "MDcwNDA2cG0="
 }
 
 Result:
 
 IF match:
 
-[{"status":"true","msg":"Token Verified","token":{"iat":50628,"jti":"MDUwNjI4cG0=","exp":54228}}]
+[
+    {
+        "status": "true",
+        "msg": "Token Verified",
+        "token": "MDcxNTIycG0="
+    }
+]
 
 IF not match:
+[
+	{
+		"status":"false",
+		"msg":"Token invalied"
+	}
+]
 
-[{"status":"false","msg":"Token invalied"}]
+================================================================================================================
+SMS Verify API Hit: http://stupidarnob.com/phpAPI/sms_verify.php
+
+JSON: 
+{
+  "mobile" : "22232224",
+  "sms_code" : "76"
+}
+
+IF Match: 
+[
+    {
+        "status": true,
+        "msg": "USER_VERIFIED"
+    }
+]
+
+IF Not Match:
+[
+    {
+        "status": false,
+        "msg": "NOT_VERIFIED",
+        "error_code": 404
+    }
+]
+
+IF Verified Previously 
+[
+    {
+        "status": true,
+        "msg": "ALREADY_VERIFIED"
+    }
+]
+
+
+================================================================================================================
+Upload Picture API Hit: http://stupidarnob.com/phpAPI/upload_picture.php
+
+Peramiter of form-data POST methon: 
+file  
+name
+where
+mobile
+
+This is the peramiter of form-data. So here 
+file = the image file
+name = name of the file including ext. Like: user1.jpg. Without extention the file will not be desplayed. Must be send the ext from 		client end
+where = where to upload the file. Here two option
+		1. user
+		2. rent
+	user for user profile upload
+	rent is rent upload
+mobile =  mobile number of the user. if you upload the 
 
 #################################### NEW WORK ##############################
 
