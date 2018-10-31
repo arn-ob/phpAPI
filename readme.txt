@@ -152,7 +152,7 @@ where
 mobile
 aprt_id
 
-This is the peramiter of form-data. So here 
+This is the peramiter of form-data. So here, 
 file = the image file
 name = name of the file including ext. Like: user1.jpg. Without extention the file will not be desplayed. Must be send the ext from 		client end
 where = where to upload the file. Here two option
@@ -174,7 +174,7 @@ rent_api: http://stupidarnob.com/phpAPI/rent.php
 
 Here all rent related task happend in this single link. Here "api" object is a selector. So choose option carefully 
 
-API 1: 
+API 1: Insert
  Sending JSON:
  	{
 		"api": "insert",
@@ -270,6 +270,15 @@ Sending JSON:
 		"update": "Location"
 	    }
 	]
+
+IF fail Return
+[
+    {
+        "Problem": "Not POST Method",
+        "msg": "Check Request"
+    }
+]
+	
 	
 API 3: For insert only location.	
 
@@ -298,58 +307,55 @@ API 4: Search as you expected. [Note] => "api": "searchQ1"
 Sending JSON:
 	{
 		"api": "searchQ1",
-		"no_of_item": "2",
-		"start": "1",
-		"end": "20",
-		"order": "ASC"
+		"no" : 10,
+		"number_of_item" : 10
 	}
 
 Receive JSON: 
 	
 	[
-	    {
-		"rent_details": {
-		    "no": "15",
-		    "rent_id": "MTI5NTE=",
-		    "rent_title": null,
-		    "rent_details": "asd",
-		    "location": {
-			"lat": "",
-			"lon": "",
-			"place": ""
-		    },
-		    "apartment_type": "ad",
-		    "rent_amount": "asd",
-		    "no_of_room": "asd",
-		    "apartment_size": "asd",
-		    "booked": "asd",
-		    "owner_booked": "asd",
-		    "nearby_places": "asd",
-		    "rent_pictures": "asd"
-		}
-	    },
-	    {
-		"rent_details": {
-		    "no": "15",
-		    "rent_id": "MTI5NTE=",
-		    "rent_title": null,
-		    "rent_details": "asd",
-		    "location": {
-			"lat": "",
-			"lon": "",
-			"place": ""
-		    },
-		    "apartment_type": "ad",
-		    "rent_amount": "asd",
-		    "no_of_room": "asd",
-		    "apartment_size": "asd",
-		    "booked": "asd",
-		    "owner_booked": "asd",
-		    "nearby_places": "asd",
-		    "rent_pictures": "asd"
-		}
-	    }
-	]
+    {
+        "rent_details": {
+            "no": "15",
+            "rent_id": "MTI5NTE=",
+            "rent_title": null,
+            "rent_details": "asd",
+            "location": {
+                "lat": "",
+                "lon": "",
+                "place": ""
+            },
+            "apartment_type": "ad",
+            "rent_amount": "asd",
+            "no_of_room": "asd",
+            "apartment_size": "asd",
+            "booked": "asd",
+            "owner_booked": "asd",
+            "nearby_places": "asd",
+            "rent_pictures": "asd"
+        }
+    },{
+        "rent_details": {
+            "no": "16",
+            "rent_id": "NDY0MDk=",
+            "rent_title": null,
+            "rent_details": "asd",
+            "location": {
+                "lat": "",
+                "lon": "",
+                "place": ""
+            },
+            "apartment_type": "ad",
+            "rent_amount": "asd",
+            "no_of_room": "asd",
+            "apartment_size": "asd",
+            "booked": "asd",
+            "owner_booked": "asd",
+            "nearby_places": "asd",
+            "rent_pictures": "asd,userr.jpg"
+        }
+    },
+    ..........
 
 [NOTE]
 Here you can be see blank array. If your given peramiter search found. API should give return. If face problem let me know.
