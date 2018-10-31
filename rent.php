@@ -38,7 +38,7 @@
                         $picture = explode(',', $row["picture"]);
                         $max = count($picture);
                         for ($x = 0; $x < $max; $x++) {
-                            $picarr[] = [ "picture_url" => $picture[$x] ] ;
+                            $picarr[] = [ "picture_url" => "upload_picture/".$picture[$x] ] ;
                                     
                         }
                         
@@ -88,16 +88,15 @@
     // start and ending id
     // order view
     if($api == "searchQ1"){
-        $numberOfItem = $receive->no_of_item;
-        $start = $receive->start;
-        $end = $receive->end;
-        $order = $receive->order;
+        $numberOfItem = $receive->number_of_item;
+        $no = $receive->no;
         
+       
         
         // Check POST METHOD
     	if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	{
-    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.apart_id = apartment.apart_id and rent.location_id = location.location_id and rent.no BETWEEN $start and $end ORDER by rent.no $order LIMIT $numberOfItem";
+    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.apart_id = apartment.apart_id and rent.location_id = location.location_id and rent.no > $no GROUP BY rent.no ORDER by rent.no ASC LIMIT $numberOfItem";
             
             if ($result = $conn->query($sql_loc)) 
             {
@@ -151,30 +150,34 @@
     
     if($api == "location"){
         
-        $locationid = base64_encode(rand(10,100));
-        $map_lat = $receive->lat;
-        $map_long = $receive->long;
+        $locationid = base64_encode(rand(11,10000));
+        $map_lat = $receive->location_lat;
+        $map_long = $receive->location_lon;
         $location_name = $receive->location_name;
     
         // Check POST METHOD
     	if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	{
-    	    $sql_location = "INSERT INTO `location`(`location_id`, `map_lat`, `map_long`, `name`, `created_date`) 
-                                    VALUES ('" .$locationid. "','" .$map_lat. "','" .$map_long. "','" .$location_name. "',CURRENT_DATE)";
+    	    $sql_location = "INSERT INTO `location`(`location_id`, `map_lat`, `map_long`, `location_name`, `created_date`) VALUES 
+    	                                        ('" .$locationid. "','" .$map_lat. "','" .$map_long. "','" .$location_name. "', CURRENT_DATE)";
             
             if ($conn->query($sql_location) === TRUE) 
             {
-                $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "Location"];
+                $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "Location", "id" => "$locationid" ];
                 
             }else{
+            
+                $return[] = ["Problem" => "Not POST Method", "msg" => "Check Request"];
+           
+            }
+            // JSON Encoding to send 
+            echo json_encode($return);
+    	}else{
             
             $return[] = ["Problem" => "Not POST Method"];
             $return[] = ["Hello" => "Its an API send a POST Requset"];
     
             }
-            // JSON Encoding to send 
-            echo json_encode($return);
-    	}
     }
     
     if($api == "apartment"){
