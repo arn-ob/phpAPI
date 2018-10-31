@@ -1,4 +1,14 @@
-phpAPI
+[ phpAPI ]
+
+IF You Face Any Bug || Req Fix Mail Me.
+
+	arnobxtreme@gmail.com
+	or
+	me@stupidarnob.com
+
+Thank You.
+
+[ DOC Start ]
 
 Signin API Hit: http://stupidarnob.com/phpAPI/signin.php
 
