@@ -17,7 +17,80 @@
     
     
     
-    if($api == "searchQ2"){
+   
+    
+    
+    // seach with all type of search peramitter
+    // number of item to send
+    // start and ending id
+    // order view
+    if($api == "searchQ1"){
+        $numberOfItem = $receive->number_of_item;
+        $no = $receive->no;
+        
+        
+        
+        // Check POST METHOD
+    	if ($_SERVER["REQUEST_METHOD"] == 'POST')
+    	{
+    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.apart_id = apartment.apart_id and rent.location_id = location.location_id and rent.no > $no GROUP BY rent.no ORDER by rent.no ASC LIMIT $numberOfItem";
+            
+            if ($result = $conn->query($sql_loc)) 
+            {
+                
+                if($result->num_rows == 0){
+                    $return[] = ["status" => "false", "msg" => "Invalid username or password given. Please try again"];
+                }else {
+                    while($row = $result->fetch_array())
+                    {
+                        $picture = explode(',', $row["picture"]);
+                        $max = count($picture);
+                        for ($x = 0; $x < $max; $x++) {
+                            $picarr[] = [ "picture_url" => "upload_picture/". $picture[$x] ] ;
+                                    
+                        }
+                        $temp["rent_details"] = [
+                                                "no" => $row["no"], 
+                                                "rent_id" => $row["rent_id"],
+                                                "rent_title" => $row["rent_title"],
+                                                "rent_details" => $row["details"],
+                                                "location" =>  [ 
+                                                    "lat" => $row["map_lat"],
+                                                    "lon" => $row["map_long"],
+                                                    "place" => $row["location_name"],
+                                                    ],
+                                                "apartment_type" => $row["type"],
+                                                "rent_amount" => $row["amount"],
+                                                "no_of_room" => $row["no_of_room"],
+                                                "apartment_size" => $row["size"],
+                                                "booked" => $row["is_booked"],
+                                                "owner_booked" => $row["is_booked_conf"],
+                                                "nearby_places" => $row["nearby_place"],
+                                                "rent_pictures" => [ $picarr ],
+                                            ];
+                        $return[] = $temp; 
+                                    
+                    }
+                    echo json_encode($return);
+                }   
+                    
+            }else{
+              $return[] = ["Problem" => "Internal sql problem"];
+              echo json_encode($return);
+            }
+    	
+        }else{
+            $return[] = ["Problem" => "Not POST Method"];
+            $return[] = ["Hello" => "Its an API send a POST Requset"];
+            echo json_encode($return);
+        }
+        // JSON Encoding to send 
+        // echo json_encode($return);
+	}
+    
+    
+    
+     if($api == "searchQ2"){
         
         $rent_id  = $receive->rent_id ;
         
@@ -81,23 +154,25 @@
         // JSON Encoding to send 
         // echo json_encode($return);
 	}
-    
-    
-    // seach with all type of search peramitter
-    // number of item to send
-    // start and ending id
-    // order view
-    if($api == "searchQ1"){
-        $numberOfItem = $receive->number_of_item;
-        $no = $receive->no;
+	
+	
+	
+	 if($api == "searchQ3"){
         
-       
-        
+        $rent_id  = $receive->rent_id ;
+        $amount_low  = $receive->amount_low ;
+        $amount_high  = $receive->amount_high ;
+        $apartment_type  = $receive->apartment_type ;
+        $apartment_size_min  = $receive->apartment_size_min ;
+        $apartment_size_high  = $receive->apartment_size_high ;
+        $location_lat  = $receive->location_lat;
+        $location_lon  = $receive->location_lon;
+    
         // Check POST METHOD
     	if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	{
-    	    $sql_loc = "SELECT * FROM rent, apartment, location WHERE rent.apart_id = apartment.apart_id and rent.location_id = location.location_id and rent.no > $no GROUP BY rent.no ORDER by rent.no ASC LIMIT $numberOfItem";
-            
+    	    $sql_loc = "SELECT * from apartment, rent, location where rent.amount > $amount_low and rent.amount < $amount_high and apartment.type = '" . $apartment_type . "' and apartment.size < $apartment_size_min and apartment.size > $apartment_size_high  and rent.apart_id = apartment.apart_id and rent.location_id = location.location_id";
+             
             if ($result = $conn->query($sql_loc)) 
             {
                 
@@ -106,7 +181,15 @@
                 }else {
                     while($row = $result->fetch_array())
                     {
-                    
+                         
+                        $picture = explode(',', $row["picture"]);
+                        $max = count($picture);
+                        for ($x = 0; $x < $max; $x++) {
+                            $picarr[] = [ "picture_url" => "upload_picture/".$picture[$x] ] ;
+                                    
+                        }
+                        
+                        
                         $temp["rent_details"] = [
                                                 "no" => $row["no"], 
                                                 "rent_id" => $row["rent_id"],
@@ -124,7 +207,7 @@
                                                 "booked" => $row["is_booked"],
                                                 "owner_booked" => $row["is_booked_conf"],
                                                 "nearby_places" => $row["nearby_place"],
-                                                "rent_pictures" => $row["picture"],
+                                                "rent_pictures" => [ $picarr ],
                                             ];
                         $return[] = $temp; 
                                     
@@ -145,6 +228,8 @@
         // JSON Encoding to send 
         // echo json_encode($return);
 	}
+    
+    
     
     
     
