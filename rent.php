@@ -163,7 +163,7 @@
             
             if ($conn->query($sql_location) === TRUE) 
             {
-                $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "Location", "id" => "$locationid" ];
+                $return[] = ["status" => "true", "msg" => "Location Updated", "update" => "Location", "id" => $locationid ];
                 
             }else{
             
@@ -197,7 +197,7 @@
           
             if ($conn->query($sql_aprt) === TRUE) 
             {
-                $return[] = ["status" => "true", "msg" => "Apartment Updated", "update" => "apartment"];
+                $return[] = ["status" => "true", "msg" => "Apartment Updated", "update" => "apartment", "apartid" => $apartid];
             }else{
             
             $return[] = ["Problem" => "Not POST Method"];
@@ -279,7 +279,7 @@
                         }
                  }
                  
-                $return[] = ["status" => "true", "msg" => "Rent Data Insert", "update" => "rent"];
+                $return[] = ["status" => "true", "msg" => "Rent Data Insert", "update" => "rent", "rent_id" => $rent_id ];
                  
                
             }else {
