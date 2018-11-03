@@ -31,11 +31,12 @@ IF match:
         "status": true,
         "msg": "User Found",
         "user_profile": {
-            "name": "arnobxtreme",
-            "id": "MjI=",
-            "email": "adasd@xyz.com",
-             "pic": "upload_picture/user1.jpg",
-            "token": "MDYyNTM2cG0="
+            "name": "asdasd",
+            "id": "NTU=",
+            "email": "",
+            "mobile_number": "223224",
+            "pic": "upload_picture/user1.jpg",
+            "token": "MDEyMDI1YW0="
         }
     }
 ]
