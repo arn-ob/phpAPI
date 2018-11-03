@@ -48,7 +48,8 @@
                                         "name" => $row["username"],
                                         "id" => $row["id"],
                                         "email" => $row["email"],
-                                        "pic" => "uploads/".$row["picture"],
+                                        "mobile_number" => $row["mobile_number"],
+                                        "pic" => "upload_picture/".$row["picture"],
                                         "token" => token()
                                         ]
                                 ];
