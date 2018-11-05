@@ -23,20 +23,14 @@
    // user picture upload
     if($where === "user"){
         
-        $sql = "UPDATE login SET picture= '" . $filename . "' where mobile_number = '" .$id . "'";
+        $sql = "UPDATE login SET picture= '" . $filename . "' where mobile_number = '" . $_POST["mobile"] . "'";
 
         if ($result = $conn->query($sql)) {
             
-            if($result->num_rows == 0){
-                
-                echo json_encode(array("message" => "No User Found"));
             
                 
-            }else{
-                
-                upload("Upload Success to user profile");
-            
-            }
+            upload("Upload Success to user profile");
+            echo json_encode(array("message" => "No User Found"));
             
         } else {
             
@@ -72,7 +66,7 @@
                         if ($result = $conn->query($sql1)) 
                         {
                             
-                            echo json_encode(array("message" => "Upload Success to rent profile 1"));
+                            echo json_encode(array("message" => "Upload Success to rent profile"));
                             
                         }
                     } else{
@@ -91,7 +85,7 @@
                         if ($result = $conn->query($sql2)) 
                         {
                           
-                                echo json_encode(array("message" => "Upload Success to rent profile 2"));
+                                echo json_encode(array("message" => "Upload Success to rent profile"));
                                
                             
                         }
