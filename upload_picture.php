@@ -26,11 +26,9 @@
         $sql = "UPDATE login SET picture= '" . $filename . "' where mobile_number = '" . $_POST["mobile"] . "'";
 
         if ($result = $conn->query($sql)) {
-            
-            
-                
+   
             upload("Upload Success to user profile");
-            echo json_encode(array("message" => "No User Found"));
+            echo json_encode(array("message" => "Upload Success to rent profile"));
             
         } else {
             
