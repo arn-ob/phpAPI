@@ -119,7 +119,7 @@ IF not match:
 ]
 
 ================================================================================================================
-SMS Verify API Hit: http://stupidarnob.com/sms_verify.php
+SMS Verify API Hit: http://api.valobasha.info/sms_verify.php
 
 JSON: 
 {
