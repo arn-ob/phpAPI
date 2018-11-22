@@ -16,19 +16,16 @@
     $api = $receive->api;
     
     
-    
-   
-    
-    
     // seach with all type of search peramitter
     // number of item to send
     // start and ending id
     // order view
+    
+    // Search Q1
     if($api == "searchQ1"){
+    
         $numberOfItem = $receive->number_of_item;
         $no = $receive->no;
-        
-        
         
         // Check POST METHOD
     	if ($_SERVER["REQUEST_METHOD"] == 'POST')
@@ -89,7 +86,7 @@
 	}
     
     
-    
+    // Search Q2
      if($api == "searchQ2"){
         
         $rent_id  = $receive->rent_id ;
@@ -156,7 +153,7 @@
 	}
 	
 	
-	
+	// Search 
 	 if($api == "searchQ3"){
         
         $rent_id  = $receive->rent_id ;
@@ -220,6 +217,9 @@
               echo json_encode($return);
             }
     	
+    	
+    	
+    	// end of post if
         }else{
             $return[] = ["Problem" => "Not POST Method"];
             $return[] = ["Hello" => "Its an API send a POST Requset"];
