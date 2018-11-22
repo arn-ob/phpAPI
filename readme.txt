@@ -10,7 +10,7 @@ Thank You.
 
 [ DOC Start ]
 
-Signin API Hit: http://stupidarnob.com/phpAPI/signin.php
+Signin API Hit: http://api.valobasha.info/signin.php
 
 JSON:
 {
@@ -43,7 +43,7 @@ IF match:
 
 
 =============================================================================================================
-Signup API Hit: http://stupidarnob.com/phpAPI/signup.php
+Signup API Hit: http://api.valobasha.info/signup.php
 
 JSON:
 {
@@ -91,7 +91,7 @@ IF present but not verified:
 
 ================================================================================================================
 
-Auth Verify API Hit: http://stupidarnob.com/phpAPI/auth_verify.php
+Auth Verify API Hit: http://api.valobasha.info/auth_verify.php
 
 JSON:
 {
@@ -119,7 +119,7 @@ IF not match:
 ]
 
 ================================================================================================================
-SMS Verify API Hit: http://stupidarnob.com/phpAPI/sms_verify.php
+SMS Verify API Hit: http://stupidarnob.com/sms_verify.php
 
 JSON: 
 {
@@ -154,7 +154,7 @@ IF Verified Previously
 
 
 ================================================================================================================
-Upload Picture API Hit: http://stupidarnob.com/phpAPI/upload_picture.php
+Upload Picture API Hit: http://api.valobasha.info/upload_picture.php
 
 Peramiter of form-data POST methon: 
 file  
@@ -181,7 +181,7 @@ aprt_id = send the apartment id which apartment you wanted to upload pic. when u
 
 Rent Work:
 
-rent_api: http://stupidarnob.com/phpAPI/rent.php
+rent_api: http://api.valobasha.info/rent.php
 
 Here all rent related task happend in this single link. Here "api" object is a selector. So choose option carefully 
 
@@ -474,12 +474,39 @@ There are lots of dunny variable let know know if you wanted to delete. Those va
 Before real life testing let me know i will delete all those fancy values
 
 
+#################################### NEW WORK ##############################
+
+Edit:
+
+Edit API: http://api.valobasha.info/edit.php
+
+Sending JSON:
+ 	{
+	  "user_name" : "samplessfsusername",
+	  "full_name" : "samplsefullname",
+	  "email" : "sampleemail",
+	  "address" : "sample address",
+	  "mobile_number": "a"
+	}
+
+Here Mobile is the key for updating the json. So u have to send the number for updating the user info. So number is the id
 
 
+IF True:
+Return JSON:
+[
+    {
+        "status": true
+    }
+]
 
-
-
-
+IF False
+Return JSON:
+[
+    {
+        "status": false
+    }
+]
 
 
 
